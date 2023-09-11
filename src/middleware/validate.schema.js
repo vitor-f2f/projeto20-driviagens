@@ -1,4 +1,5 @@
 import { stripHtml } from 'string-strip-html';
+import { unprocessable } from './error.types.js';
 
 export function validateSchema(schema) {
     return function (req, res, next) {
@@ -12,9 +13,7 @@ export function validateSchema(schema) {
 
         if (error) {
             const errorMessage = error.details.map((detail) => detail.message).join(" ");
-            const validationError = new Error(errorMessage);
-            validationError.type = "validation";
-            throw validationError;
+            throw unprocessable(errorMessage)
         }
         next();
     };
