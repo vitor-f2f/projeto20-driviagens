@@ -35,12 +35,12 @@ const getFlights = async (origin, destination, smaller, bigger) => {
     }
 
     const dateFormat = "DD-MM-YYYY";
-    if (!dayjs(smaller, dateFormat).isValid() || !dayjs(bigger, dateFormat).isValid()) {
-        throw unprocessable("Date");
-    }
+    const smallerObj = moment(smaller, dateFormat, true);
+    const biggerObj = moment(bigger, dateFormat, true);
 
-    const smallerObj = dayjs(smaller, dateFormat);
-    const biggerObj = dayjs(bigger, dateFormat);
+    if (!smallerObj.isValid() || !biggerObj.isValid()) {
+        throw new Error("Invalid date format.");
+    }
 
     if (biggerObj.isBefore(smallerObj)) {
         throw badRequest("Final date can not be earlier than initial date");
