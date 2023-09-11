@@ -12,8 +12,21 @@ const createPassenger = async (data) => {
     return newPassenger;
 }
 
+const getPassengers = async (name) => {
+    const list = await passengersRepository.getList(name);
+
+    if (list.length > 10) {
+        const serverError = new Error("Too many results.");
+        serverError.type = "serverError";
+        throw serverError;
+    }
+
+    return list;
+}
+
 const passengersService = {
     createPassenger,
+    getPassengers
 };
 
 export default passengersService;
