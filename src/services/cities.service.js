@@ -1,10 +1,11 @@
 import citiesRepository from "../repositories/cities.repository.js";
-import httpStatus from "http-status";
 
 const createCity = async (data) => {
     const exists = await citiesRepository.checkCity(data.name);
     if (exists) {
-        throw new Error()
+        const conflictError = new Error("City name already exists");
+        conflictError.type = "conflict";
+        throw conflictError;
     }
 
     const newCity = await citiesRepository.addCity(data.name);

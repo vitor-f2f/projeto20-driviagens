@@ -1,14 +1,14 @@
 import { Router } from "express";
 import citiesRouter from './cities.router.js';
-// import passengersRouter from './passengers.routes.js';
-// import flightsRouter from './flights.routes.js';
-// import travelsRouter from './travels.routes.js';
+import passengersRouter from './passengers.router.js';
+// import flightsRouter from './flights.router.js';
+import travelsRouter from './travels.router.js';
 
 const router = Router();
 
 router.use(citiesRouter);
-// router.use(passengersRouter);
+router.use(passengersRouter);
 // router.use(flightsRouter);
-// router.use(travelsRouter);
+router.use(travelsRouter);
 
 export default router;

@@ -1,11 +1,11 @@
 import httpStatus from "http-status";
-import citiesService from "../services/cities.service.js";
+import passengersService from "../services/passengers.service.js";
 
 export const create = async (req, res) => {
     try {
         const data = req.body;
-        const newCity = await citiesService.createCity(data);
-        res.status(httpStatus.CREATED).json(newCity);
+        const newPassenger = await passengersService.createPassenger(data);
+        res.status(httpStatus.CREATED).json(newPassenger);
     } catch (error) {
         console.log(error);
         if (error.type === "conflict") {
