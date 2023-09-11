@@ -10,7 +10,7 @@ const configDatabase = {
 
 if (process.env.NODE_ENV === "production") configDatabase.ssl = true;
 
-export const db = new Pool(configDatabase);
+const db = new Pool(configDatabase);
 
 db.query("SELECT 1")
     .then(() => {
@@ -20,6 +20,7 @@ db.query("SELECT 1")
         console.error("Erro ao conectar ao banco de dados:", error.message);
     });
 
+export default db;
 
 /*
 CREATE TABLE cities (

@@ -5,7 +5,7 @@ export const create = async (req, res) => {
     try {
         const data = req.body;
         const newCity = await citiesService.createCity(data);
-        res.status(httpStatus.CREATE).json(newCity);
+        res.status(httpStatus.CREATED).json(newCity);
     } catch (error) {
         console.log(error);
         if (error.type === "notFound") {
