@@ -1,11 +1,10 @@
+import { conflict, serverError } from "../middleware/error.types.js";
 import passengersRepository from "../repositories/passengers.repository.js";
 
 const createPassenger = async (data) => {
     const exists = await passengersRepository.checkPassenger(data.firstName, data.lastName);
     if (exists) {
-        const conflictError = new Error("Passenger already exists");
-        conflictError.type = "conflict";
-        throw conflictError;
+        throw conflict("Passenger");
     }
 
     const newPassenger = await passengersRepository.addPassenger(data.firstName, data.lastName);
@@ -14,13 +13,9 @@ const createPassenger = async (data) => {
 
 const getPassengers = async (name) => {
     const list = await passengersRepository.getList(name);
-
     if (list.length > 10) {
-        const serverError = new Error("Too many results.");
-        serverError.type = "serverError";
-        throw serverError;
+        throw serverError("Too many results.");
     }
-
     return list;
 }
 

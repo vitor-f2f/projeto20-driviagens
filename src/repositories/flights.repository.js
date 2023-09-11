@@ -11,8 +11,6 @@ const checkCity = async (id) => {
 }
 
 const getFlightList = async (origin, destination, smaller, bigger) => {
-    let originId;
-    let destinationId;
     let query = `
         SELECT
             flights.id,
