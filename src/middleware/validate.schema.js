@@ -11,10 +11,11 @@ export function validateSchema(schema) {
     const { error } = schema.validate(cleanData, { abortEarly: false });
 
     if (error) {
-      const errorMessage = error.details.map((detail) => detail.message).join(" ");
-      return res.status(422).send(errorMessage);
+        const errorMessage = error.details.map((detail) => detail.message).join(" ");
+        const validationError = new Error(errorMessage);
+        validationError.type = "validation";
+        throw conflictError;
     }
-
     next();
   };
 }

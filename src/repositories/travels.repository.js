@@ -15,10 +15,10 @@ const checkFlight = async (id) => {
     return res.rowCount > 0;
 }
 
-const citiesRepository = {
+const travelsRepository = {
     addTravel,
     checkPassenger,
     checkFlight
 }
 
-export default citiesRepository;
+export default travelsRepository;
