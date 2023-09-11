@@ -1,15 +1,15 @@
-export function notFound(variable = "This") {
-    const error = new Error(`${variable} could not be found.`);
+export function notFound(message = "This could not be found.") {
+    const error = new Error(message);
     error.type = "notFound";
     return error;
 }
-export function conflict(variable = "This") {
-    const error = new Error(`${variable} already exists.`);
+export function conflict(message = "This already exists.") {
+    const error = new Error(message);
     error.type = "conflict";
     return error;
 }
-export function unprocessable(variable = "This") {
-    const error = new Error(`${variable} is not a valid entity.`);
+export function unprocessable(message = "This is not a valid entity") {
+    const error = new Error(message);
     error.type = "unprocessable";
     return error;
 }

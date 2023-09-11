@@ -1,20 +1,29 @@
 import flightsRepository from "../repositories/flights.repository.js";
 import moment from 'moment';
 import dayjs from 'dayjs';
-import { notFound, unprocessable, badRequest } from "../middleware/error.types.js";
+import { notFound, unprocessable, badRequest, conflict } from "../middleware/error.types.js";
 
 const createFlight = async (data) => {
     const validOrigin = await flightsRepository.checkCity(data.origin);
     if (!validOrigin) {
-        throw notFound("Origin city");
+        throw notFound("Origin city could not be found.");
     }
 
     const validDestination = await flightsRepository.checkCity(data.destination);
     if (!validDestination) {
-        throw notFound("Destination city");
+        throw notFound("Destination city could not be found.");
+    }
+
+    if (data.origin === data.destination) {
+        throw conflict("Invalid origin and destination combination.");
     }
 
     const formattedDate = moment(data.date, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const currentDate = moment().format("YYYY-MM-DD");
+
+    if (formattedDate < currentDate) {
+        throw unprocessable("Travel must be scheduled in a future date.")
+    }
 
     const newFlight = await flightsRepository.addFlight(data.origin, data.destination, formattedDate);
     return newFlight;

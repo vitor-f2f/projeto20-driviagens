@@ -4,7 +4,7 @@ import passengersRepository from "../repositories/passengers.repository.js";
 const createPassenger = async (data) => {
     const exists = await passengersRepository.checkPassenger(data.firstName, data.lastName);
     if (exists) {
-        throw conflict("Passenger");
+        throw conflict("Passenger already registered.");
     }
 
     const newPassenger = await passengersRepository.addPassenger(data.firstName, data.lastName);
