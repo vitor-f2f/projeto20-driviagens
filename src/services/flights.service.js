@@ -33,26 +33,25 @@ const getFlights = async (origin, destination, smaller, bigger) => {
     if ((!smaller && bigger) || (smaller && !bigger)) {
         throw unprocessable("Initial or final date");
     }
-
-    const dateFormat = "DD-MM-YYYY";
-    const smallerObj = moment(smaller, dateFormat, true);
-    const biggerObj = moment(bigger, dateFormat, true);
-
-    if (!smallerObj.isValid() || !biggerObj.isValid()) {
-        throw new Error("Invalid date format.");
-    }
-
-    if (biggerObj.isBefore(smallerObj)) {
-        throw badRequest("Final date can not be earlier than initial date");
+    let formattedSmaller;
+    let formattedBigger;
+    if (smaller && bigger) {
+        const dateFormat = "DD-MM-YYYY";
+        const smallerObj = moment(smaller, dateFormat, true);
+        const biggerObj = moment(bigger, dateFormat, true);
+        if (!smallerObj.isValid() || !biggerObj.isValid()) {
+            throw unprocessable("Invalid date format.");
+        }
+        if (biggerObj.isBefore(smallerObj)) {
+            throw badRequest("Final date can not be earlier than initial date");
+        }
+        formattedSmaller = moment(smaller, 'DD-MM-YYYY').format('YYYY-MM-DD');
+        formattedBigger = moment(bigger, 'DD-MM-YYYY').format('YYYY-MM-DD');
     }
 
     if ((origin || destination) && origin === destination) {
         throw badRequest("Origin and destination must be different cities");
     }
-    let formattedSmaller;
-    let formattedBigger;
-    if (smaller) formattedSmaller = moment(smaller, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    if (bigger) formattedBigger = moment(bigger, 'DD-MM-YYYY').format('YYYY-MM-DD');
 
 
     const flightList = await flightsRepository.getFlightList(origin, destination, formattedSmaller, formattedBigger);
